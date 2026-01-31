@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Status de confirmação
+    match /status_confirmacao/{statusId} {
+      // Permitir leitura para usuários autenticados
+      allow read: if request.auth != null;
+      // Permitir escrita para o seed (mudar para false após popular)
+      allow write: if true; 
+    }
+    
+    // ITBI - CRUD completo para usuários autenticados
+    match /itbi/{itbiId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && 
+                      validateITBI(request.resource.data);
+      allow update: if request.auth != null && 
+                      validateITBI(request.resource.data);
+      allow delete: if request.auth != null;
+    }
+    
+    function validateITBI(data) {
+      return data.nomeCliente is string &&
+             data.numeroProtocolo is string &&
+             data.dataCadastro is timestamp &&
+             data.enviadoId is int &&
+             data.solicitadoId is int &&
+             data.enviadoId >= 1 && data.enviadoId <= 3 &&
+             data.solicitadoId >= 1 && data.solicitadoId <= 3;
+    }
+  }
+}
