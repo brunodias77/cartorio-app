@@ -1,6 +1,6 @@
-import { getCurrentUser } from "../services/auth-service";
+import { getCurrentUser, logoutUser } from "../services/auth-service";
 import { formatLongDate } from "../utils/date-util";
-import { Building2, Clock } from 'lucide-react';
+import { Building2, Clock, LogOut } from 'lucide-react';
 
 const getInitials = (name?: string | null) => {
     if (!name) return "";
@@ -15,6 +15,10 @@ const getInitials = (name?: string | null) => {
 
 
 export const Header = () => {
+    const handleLogout = async () => {
+        await logoutUser();
+    };
+
     const currentDate = formatLongDate(new Date());
     const user = getCurrentUser();
     const userName = user?.displayName || user?.email || "Usuário";
@@ -40,6 +44,13 @@ export const Header = () => {
                 >
                     {initials}
                 </div>
+                <button
+                    onClick={handleLogout}
+                    className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+                    title="Sair do sistema"
+                >
+                    <LogOut size={20} />
+                </button>
             </div>
         </nav>
     );
