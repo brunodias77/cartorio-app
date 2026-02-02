@@ -14,6 +14,7 @@ interface LoginUserRequest {
 export const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState<string | null>(null); // Added error state
     const navigate = useNavigate();
     const toast = useToast();
@@ -32,7 +33,7 @@ export const LoginForm = () => {
         };
 
         try {
-            const response = await loginUser(loginData.email, loginData.password);
+            const response = await loginUser(loginData.email, loginData.password, rememberMe);
 
             if (response.success) {
                 toast.success(`Bem-vindo!`);
@@ -124,6 +125,8 @@ export const LoginForm = () => {
                             id="remember-me"
                             name="remember-me"
                             type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
                             className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500/20 cursor-pointer"
                         />
                     </div>
