@@ -35,11 +35,7 @@ const unformatPhone = (value: string): string => {
     return value.replace(/\D/g, '');
 };
 
-const generateProtocol = () => {
-    const year = new Date().getFullYear();
-    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return `${year}-${random}`;
-};
+
 
 export const ItbiForm = ({ onSuccess, onCancel }: ItbiFormProps) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +65,7 @@ export const ItbiForm = ({ onSuccess, onCancel }: ItbiFormProps) => {
             await criarITBI({
                 nomeCliente: formData.get('nomeCliente') as string,
                 telefoneCliente: phoneNumbers, // Envia sem máscara
-                numeroProtocolo: generateProtocol(),
+                numeroProtocolo: "",
             });
             toast.success('ITBI criado com sucesso!');
             onSuccess();

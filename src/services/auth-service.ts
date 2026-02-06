@@ -9,6 +9,9 @@ import {
     sendPasswordResetEmail,
     GoogleAuthProvider,
     signInWithPopup,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
     type User,
     type NextOrObserver
 } from 'firebase/auth';
@@ -33,8 +36,9 @@ export const registerUser = async (email: string, password: string): Promise<Aut
 };
 
 // Login
-export const loginUser = async (email: string, password: string): Promise<AuthResponse> => {
+export const loginUser = async (email: string, password: string, remember: boolean = false): Promise<AuthResponse> => {
     try {
+        await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         return { success: true, user: userCredential.user };
     } catch (error: any) {
