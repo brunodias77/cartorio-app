@@ -7,8 +7,6 @@ import {
     signOut,
     onAuthStateChanged,
     sendPasswordResetEmail,
-    GoogleAuthProvider,
-    signInWithPopup,
     setPersistence,
     browserLocalPersistence,
     browserSessionPersistence,
@@ -17,7 +15,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
 
-const googleProvider = new GoogleAuthProvider();
+
 
 export interface AuthResponse {
     success: boolean;
@@ -71,15 +69,7 @@ export const observeAuthState = (callback: NextOrObserver<User>) => {
     return onAuthStateChanged(auth, callback);
 };
 
-// Login com Google
-export const loginWithGoogle = async (): Promise<AuthResponse> => {
-    try {
-        const result = await signInWithPopup(auth, googleProvider);
-        return { success: true, user: result.user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
-    }
-};
+
 
 // Obter usuário atual
 export const getCurrentUser = (): User | null => {
