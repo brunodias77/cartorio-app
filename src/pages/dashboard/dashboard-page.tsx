@@ -32,9 +32,7 @@ export const DashboardPage = () => {
                 const mappedItbis = result.data.map(item => ({
                     ...item,
                     id: item.id!,
-                    dataCadastro: item.dataCadastro && typeof (item.dataCadastro as any).toDate === 'function'
-                        ? (item.dataCadastro as any).toDate()
-                        : item.dataCadastro
+                    // dataCadastro é tratado pelo formatDate agora, não precisamos converter aqui
                 })) as unknown as Itbi[];
 
                 setItbis(mappedItbis);

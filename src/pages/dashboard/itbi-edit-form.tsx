@@ -83,12 +83,12 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
             if (itbi.id) {
                 await atualizarITBI(itbi.id, updateData);
                 toast.success('ITBI atualizado com sucesso!');
+                setIsLoading(false);
                 onSuccess();
             }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Erro ao atualizar ITBI';
             toast.error('Erro ao atualizar', errorMessage);
-        } finally {
             setIsLoading(false);
         }
     };
