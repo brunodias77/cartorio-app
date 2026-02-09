@@ -30,6 +30,8 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
     const [isLoading, setIsLoading] = useState(false);
     const [telefone, setTelefone] = useState('');
     const [statusList, setStatusList] = useState<StatusData[]>([]);
+    const [solicitadoId, setSolicitadoId] = useState(itbi.solicitadoId);
+    const [enviadoId, setEnviadoId] = useState(itbi.enviadoId);
     const toast = useToast();
 
     // Initialize form with existing data
@@ -37,6 +39,8 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
         if (itbi.telefoneCliente) {
             setTelefone(formatPhone(itbi.telefoneCliente));
         }
+        setSolicitadoId(itbi.solicitadoId);
+        setEnviadoId(itbi.enviadoId);
         loadStatus();
     }, [itbi]);
 
@@ -71,8 +75,8 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
             nomeCliente: formData.get('nomeCliente') as string,
             telefoneCliente: phoneNumbers || null,
             numeroProtocolo: formData.get('numeroProtocolo') as string,
-            solicitadoId: Number(formData.get('solicitadoId')),
-            enviadoId: Number(formData.get('enviadoId')),
+            solicitadoId: solicitadoId,
+            enviadoId: enviadoId,
         };
 
         try {
@@ -137,7 +141,8 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
                             id="solicitadoId"
                             name="solicitadoId"
                             className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
-                            defaultValue={itbi.solicitadoId}
+                            value={solicitadoId}
+                            onChange={(e) => setSolicitadoId(Number(e.target.value))}
                         >
                             {statusList.map(status => (
                                 <option key={`sol-${status.id}`} value={status.id}>
@@ -161,7 +166,8 @@ export const ItbiEditForm = ({ itbi, onSuccess, onCancel }: ItbiEditFormProps) =
                             id="enviadoId"
                             name="enviadoId"
                             className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
-                            defaultValue={itbi.enviadoId}
+                            value={enviadoId}
+                            onChange={(e) => setEnviadoId(Number(e.target.value))}
                         >
                             {statusList.map(status => (
                                 <option key={`env-${status.id}`} value={status.id}>
