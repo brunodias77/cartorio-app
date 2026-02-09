@@ -161,19 +161,19 @@ export const DashboardPage = () => {
             </ItbiModal>
 
             {/* Modal de edição */}
-            <ItbiModal
-                isOpen={isEditModalOpen}
-                onClose={() => { setIsEditModalOpen(false); setEditingItbi(null); }}
-                title="Editar ITBI"
-            >
-                {editingItbi && (
+            {isEditModalOpen && editingItbi && (
+                <ItbiModal
+                    isOpen={true}
+                    onClose={() => { setIsEditModalOpen(false); setEditingItbi(null); }}
+                    title="Editar ITBI"
+                >
                     <ItbiEditForm
                         itbi={editingItbi}
                         onSuccess={handleEditSuccess}
                         onCancel={() => { setIsEditModalOpen(false); setEditingItbi(null); }}
                     />
-                )}
-            </ItbiModal>
+                </ItbiModal>
+            )}
 
         </div>
     );
